@@ -30,7 +30,7 @@ class ViTBlock(CheckpointModule):
                                      dtype=dtype,
                                      init_method=init_method)
         self.drop_path = col_nn.DropPath(drop_path) if drop_path > 0. else nn.Identity()
-        self.norm2 = col_nn.LayerNorm(normalized_shape=hidden_size, eps=layernorm_epsilon,dtype=dtype)
+        self.norm2 = col_nn.LayerNorm(normalized_shape=hidden_size, eps=layernorm_epsilon, dtype=dtype)
         self.mlp = ViTMLP(hidden_size=hidden_size,
                           mlp_ratio=mlp_ratio,
                           activation=activation,
@@ -43,5 +43,3 @@ class ViTBlock(CheckpointModule):
             x = x + self.drop_path(self.attn(self.norm1(x)))
             x = x + self.drop_path(self.mlp(self.norm2(x)))
             return x
-
-
